@@ -49,6 +49,7 @@
 #include "cpu.h"
 #include "cross.h"
 #include "control.h"
+#include "hardware.h"
 
 #define MAPPERFILE "mapper-" VERSION ".map"
 //#define DISABLE_JOYSTICK
@@ -2021,6 +2022,10 @@ int main(int argc, char* argv[]) {
 		/* Init the keyMapper */
 		MAPPER_Init();
 		if (control->cmdline->FindExist("-startmapper")) MAPPER_RunInternal();
+
+		/* Start audio capture. */
+		if (control->cmdline->FindExist("-capturewav")) CAPTURE_WaveStart();
+
 		/* Start up main machine */
 		control->StartUp();
 		/* Shutdown everything */
@@ -2048,6 +2053,7 @@ int main(int argc, char* argv[]) {
 	catch(...){
 		; // Unknown error, let's just exit.
 	}
+	CAPTURE_WaveStop();
 #if defined (WIN32)
 	sticky_keys(true); //Might not be needed if the shutdown function switches to windowed mode, but it doesn't hurt
 #endif 

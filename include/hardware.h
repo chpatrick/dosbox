@@ -46,6 +46,10 @@ extern Bit8u adlib_commandreg;
 FILE * OpenCaptureFile(const char * type,const char * ext);
 
 void CAPTURE_AddWave(Bit32u freq, Bit32u len, Bit16s * data);
+
+void CAPTURE_WaveStart();
+void CAPTURE_WaveStop();
+
 #define CAPTURE_FLAG_DBLW	0x1
 #define CAPTURE_FLAG_DBLH	0x2
 void CAPTURE_AddImage(Bitu width, Bitu height, Bitu bpp, Bitu pitch, Bitu flags, float fps, Bit8u * data, Bit8u * pal);

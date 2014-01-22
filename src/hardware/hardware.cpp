@@ -631,9 +631,12 @@ void CAPTURE_AddWave(Bit32u freq, Bit32u len, Bit16s * data) {
 		}
 	}
 }
-static void CAPTURE_WaveEvent(bool pressed) {
-	if (!pressed)
-		return;
+
+void CAPTURE_WaveStart() {
+	CaptureState |= CAPTURE_WAVE;
+};
+
+void CAPTURE_WaveStop() {
 	/* Check for previously opened wave file */
 	if (capture.wave.handle) {
 		LOG_MSG("Stopped capturing wave output.");
@@ -652,6 +655,12 @@ static void CAPTURE_WaveEvent(bool pressed) {
 		capture.wave.handle=0;
 		CaptureState |= CAPTURE_WAVE;
 	} 
+};
+
+static void CAPTURE_WaveEvent(bool pressed) {
+	if (!pressed)
+		return;
+	CAPTURE_WaveStart();
 	CaptureState ^= CAPTURE_WAVE;
 }
 
